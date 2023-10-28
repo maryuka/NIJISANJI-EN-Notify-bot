@@ -1,0 +1,290 @@
+パッケージレポート
+
+-----------------------------------------------------------------------------
+ドキュメント :
+名前 : todayBG.ai
+カラーモード : RGB カラー
+カラープロファイル : なし
+定規の単位 : pixel
+アートボードのサイズ : 2000 px x 3000 px
+アウトライン画面で配置した画像を表示 : オフ
+代替フォントを強調表示 : オフ
+代替字形を強調表示 : オフ
+テキストの編集機能を保持
+紙色のシミュレート : オフ
+
+-----------------------------------------------------------------------------
+特色オブジェクト :
+
+-----------------------------------------------------------------------------
+環境にないフォント :なし
+
+-----------------------------------------------------------------------------
+保護されているフォントはパッケージ化されませんでした :なし
+
+-----------------------------------------------------------------------------
+フォント :
+Nixie One (TrueType)
+HP Simplified (OTF)
+
+-----------------------------------------------------------------------------
+埋め込みフォント :
+なし
+
+-----------------------------------------------------------------------------
+見つからないリンク :
+なし
+
+-----------------------------------------------------------------------------
+リンクされた画像 :
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\channels4_profile.jpg
+形状 : RGB
+ビット/ピクセル : 24
+チャンネル : 3
+サイズ : 90K, 176 x 176 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 154.525 x 154.525 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (23).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.196 x 351.196 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (22).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (21).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (20).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 623K, 400 x 399 pixel
+寸法 : 82.211 x 82.006 point
+解像度 : 350.316 x 350.316 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (19).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (18).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.717 x 81.717 point
+解像度 : 352.434 x 352.434 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\uki.png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.935 x 81.935 point
+解像度 : 351.498 x 351.498 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (17).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (16).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\yugo.png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (15).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.575 x 81.575 point
+解像度 : 353.05 x 353.05 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (14).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.43 x 81.43 point
+解像度 : 353.679 x 353.679 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\EN_logo_orig.png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 2211K, 745 x 760 pixel
+寸法 : 103.156 x 105.233 point
+解像度 : 519.988 x 519.988 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (13).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.848 x 81.848 point
+解像度 : 351.873 x 351.873 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (12).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (11).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.005 x 82.005 point
+解像度 : 351.196 x 351.196 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (10).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.852 x 81.852 point
+解像度 : 351.854 x 351.854 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (9).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (8).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (7).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (6).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (5).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.774 x 81.774 point
+解像度 : 352.192 x 352.192 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (4).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.126 x 82.126 point
+解像度 : 350.681 x 350.681 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (3).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.006 x 82.006 point
+解像度 : 351.195 x 351.195 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (2).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.434 x 81.434 point
+解像度 : 353.661 x 353.661 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig (1).png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 81.581 x 81.581 point
+解像度 : 353.022 x 353.022 pixel/inch
+
+
+C:\Users\yukay\OneDrive - Hiroshima University\個人\にじさんじ\hyou\face_orig.png
+形状 : 透明 RGB
+ビット/ピクセル : 32
+チャンネル : 4
+サイズ : 625K, 400 x 400 pixel
+寸法 : 82.009 x 82.009 point
+解像度 : 351.181 x 351.181 pixel/inch

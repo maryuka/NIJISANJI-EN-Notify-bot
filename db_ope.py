@@ -1,239 +1,108 @@
-# https://resanaplaza.com/2021/09/15/%E3%80%90-%E3%82%B3%E3%83%94%E3%83%9A%E3%81%A7ok%E3%80%91%EF%BC%99%E5%89%B2%E3%81%AE%E6%A9%9F%E8%83%BD%E3%82%92%E7%B6%B2%E7%BE%85%EF%BC%81pyton%E3%81%8B%E3%82%89postgresql%E3%82%92%E6%89%B1%E3%81%86/
-import psycopg2
- 
-class PostgreConnect:
-    '''
-    ostgreSQのヘルパークラス
-    Parameters
-    '''
-    GET_TABLE_LIST_QUERY = "SELECT t.* FROM (SELECT TABLENAME,SCHEMANAME,'table' as TYPE from PG_TABLES UNION SELECT VIEWNAME,SCHEMANAME,'view' as TYPE from PG_VIEWS) t WHERE TABLENAME LIKE LOWER('{0}') and SCHEMANAME like LOWER('{1}') and TYPE like LOWER('{2}');"
-    GET_COLUMN_LIST_QUERY = "SELECT TABLE_NAME,COLUMN_NAME,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS where TABLE_NAME like LOWER('{0}') and TABLE_SCHEMA like LOWER('{1}') ORDER BY ORDINAL_POSITION;"
-    GET_ALTER_TABLE_QUERY = "ALTER TABLE {0} ADD {1};"
-    GET_RENAME_TABLE_QUERY = "alter table {0} rename to {1};"
-    
-    def __init__(self,host,dbname,user,password,port=5432):
+import mysql.connector 
+import json
+import logging
+import os
+
+class MySQLConnect:
+    def __init__(self):
         '''
         DBの接続情報を保持する
+        '''
+        self.host       = os.environ['DB_HOST']
+        self.port       = os.environ['DB_PORT']
+        self.db         = os.environ['DB']
+        self.user       = os.environ['DB_USER']
+        self.password   = os.environ['DB_PASS']
+        self.charset    = 'utf8'
+
+    def _connect(self):
+        conn = mysql.connector.connect(
+            host        = self.host,
+            port        = self.port,
+            user        = self.user,
+            password    = self.password,
+            database    = self.db,
+            charset     = self.charset,
+            autocommit  = True
+        )
+        conn.ping(reconnect=True)
+        return conn
+    
+    def execute(self, sql):
+        '''
+        execute SQL
+
         Parameters
         ----------
-        host : str
-        　  ホスト名
-        dbname : str
-            DB名
-        user : str
-            ユーザー名
-        password : str
-            パスワード
-        port : integer
-            ポート
-        '''
-        self.host = host
-        self.dbname = dbname
-        self.user = user
-        self.password = password
-        self.port = port
-    
-    def __connect(self):
-        return psycopg2.connect("postgresql://{user}:{password}@{host}:{port}/{dbname}".format(user=self.user, password=self.password, host=self.host, port=self.port, dbname=self.dbname))
-    
-    def execute(self,sql):
-        '''
-        SQLを実行し、結果を取得する
-        Parameters
-        ----------
-        columns : str
-            実行したいSQL
+        sql : str
         '''
         try:
-            print(sql)
-            conn = self.__connect()
+            conn = self._connect()
             cur = conn.cursor()
             cur.execute(sql)
-            conn.commit()
             cur.close()
             conn.close()
-        except(Exception, psycopg2.Error) as e:
-            print('database error', e)
+        except mysql.connector.Error as e:
+            logging.exception(f'database error: {e}')
 
-    def execute_all(self,sqls):
+    def execute_fetch(self, sql):
         '''
-        複数のSQLをトランザクション配下で実行する
+        execute SQL, and return the result
+
         Parameters
         ----------
-        columns : strs
-            実行したいSQLのリスト
-        '''
-        conn = self.__connect()
-        cur = conn.cursor()
-        try:
-            for sql in sqls:
-                cur.execute(sql)
-            conn.commit()
-        except psycopg2.Error as e:
-            conn.rollback()
-        cur.close()
-        conn.close()
-    
-    def execute_query(self,sql):
-        '''
-        select 系のSQLを実行し、結果を全て取得する
-        Parameters
-        ----------
-        columns : str
-            実行したいSQL
+        sql : str
+
         Returns
         ----------
-        data: list
-            １行分をタプルとし、複数行をリストとして返す
-            <例> [('RX100','Sony',35000),('RX200','Sony',42000)]
+        result : list
         '''
         try:
-            conn = self.__connect()
+            conn = self._connect()
             cur = conn.cursor()
             cur.execute(sql)
             res = cur.fetchall()
             cur.close()
             conn.close()
             return res
-        except(Exception, psycopg2.Error) as e:
-            print('エラーが発生', e)
-    
-    def execute_scalor(self,sql):
-        '''
-        結果の値が１つしかないSQLを実行し、結果を取得する
-        Parameters
-        ----------
-        columns : str
-            実行したいSQL
-        Returns
-        ----------
-        res:
-            実行結果により返された値
-        '''
-        try:
-            conn = self.__connect()
-            cur = conn.cursor()
-            cur.execute(sql)
-            res = cur.fetchone()
-            cur.close()
-            conn.close()
-            return res if res != None else None
-        except(Exception, psycopg2.Error) as e:
-            print('エラーが発生', e)
-    
-    def create(self,tablename,columns,primarykey = '',isdrop=False):
-        '''
-        テーブルを作成する
-        Parameters
-        ----------
-        columns : str
-            「列名」又は「列名＋型」をカンマ区切りで指定
-            <例> 'product text,price int,maker,year'
-        primarykey: str
-            プライマリーキーをカンマ区切りで指定
-            <例> 'product,year'
-        '''
-        if isdrop :
-            self.drop(tablename)
-        pkey = ',PRIMARY KEY({0})'.format(primarykey) if primarykey != '' else ''
-        sql = 'CREATE TABLE {0}({1} {2});'.format(tablename,columns,pkey)
-        self.execute(sql)
-    
-    def exists(self,tablename):
-        '''
-        指定したテーブル、又はビューの有無を判定する
-        Parameters
-        ----------
-        columns : str
-            実行したいSQL
-        Returns
-        ----------
-            テーブル又はビューが存在すればTrue 存在しなければ False
-        '''
-        res = self.execute_scalor('SELECT relname FROM pg_class WHERE relkind = \'r\' AND relname = \'{}\';'.format(tablename))
-        return False if res == None else True
-    
-    def drop(self,tablename):
-        '''
-        指定されたテーブルが存在すれば削除、無ければ何もしない
-        Parameters
-        ----------
-        tablename : str
-            削除したいテーブル名
-        '''
-        if self.exists(tablename):
-            self.execute("DROP TABLE {};".format(tablename))
+        except mysql.connector.Error as e:
+            logging.exception(f'database error: {e}')
 
-    def rename(self,old_tablename,new_tablename):
+    def db_create(self):
+        sql = 'CREATE TABLE IF NOT EXISTS daily_logs (id MEDIUMINT NOT NULL Auto_Increment PRIMARY KEY, date varchar(128), log text);'
+        self.execute(sql)
+
+    def db_insert(self,day_num_log, today):
+        sql = f'INSERT INTO daily_logs (date, log) VALUES (\'{today}\', \'{json.dumps(day_num_log)}\');'
+        self.execute(sql)
+
+    def db_delete_table(self):
+        sql = 'DROP TABLE IF EXISTS daily_logs;'
+        self.execute(sql)
+
+    def db_delete_exc_latest(self):
+        sql = 'SET @mid = (SELECT max(id) from daily_logs)'
+        self.execute(sql)
+        sql = 'DELETE FROM daily_logs WHERE id != @mid;'
+        self.execute(sql)
+
+    def db_get_log(self,yesterday):
         '''
-        テーブル名を変更する
+        get the yesterday' subscriber count data from the database
+
         Parameters
         ----------
-        old_tablename : str
-            変更前のテーブル名
-        new_tablename : str
-            変更後のテーブル名
-        '''
-        self.execute(self.GET_RENAME_TABLE_QUERY.format(old_tablename,new_tablename))
-    
-    def add_column(self,tablename,columns):
-        '''
-        テーブル名を変更する
-        Parameters
-        ----------
-        tablename : str
-            テーブル名
-        columns : str
-            「列名」又は「列名＋型」をリスト形式で指定
-            <例> ['product varchar','price numeric(5,2)','maker integer']
-        '''
-        for column in columns:
-            self.execute(self.GET_ALTER_TABLE_QUERY.format(tablename,column))
-    
-    def get_table_list(self,table_type=""):
-        '''
-        登録されているテーブルの一覧を取得する
-        Parameters
-        ----------
-        table_type : str
-            'table' => テーブルのみ、'view' => ビューのみ、'' => テーブルとビューの両方
+        yesterday : str
+            example: 2022-09-09
+        
         Returns
         ----------
-        res:str
-            リスト形式のテーブル名一覧
-            <例>  ['talbe1','table2','table3']
+        result : dict
+            yesterday's subscriber count data
+            {name:subscriber count(int), ...}
+            if there is no matching data , return None object
         '''
-        res = self.execute_query(self.GET_TABLE_LIST_QUERY.format('%%',self.scheme,'%' + table_type + '%'))
-        return [name[0] for name in res]
-    
-    def get_column_type(self,tablename):
-        '''
-        指定したテーブルのカラムと型を一覧で取得する
-        Parameters
-        ----------
-        tablename : str
-            テーブル名
-        Returns
-        ----------
-        res:str
-            リスト形式でカラム名と型のタプルを返す
-            <例>  [('column1','int'),('column2','text'),('column3',real)]
-        '''
-        res = self.execute_query(self.GET_COLUMN_LIST_QUERY.format(tablename,self.scheme))
-        return [(name[1],name[2]) for name in res]
-    
-    def get_column_list(self,tablename):
-        '''
-        指定したテーブルのカラム名を一覧で取得する
-        Parameters
-        ----------
-        tablename : str
-            テーブル名
-        Returns
-        ----------
-        res:str
-            リスト形式のカラム名一覧
-            <例>  ['column1','column2','column3']
-        '''
-        res = self.execute_query(self.GET_COLUMN_LIST_QUERY.format(tablename,self.scheme))
-        return [name[1] for name in res]
+        result = self.execute_fetch(f'SELECT log FROM daily_logs WHERE date = \'{yesterday:s}\';')
+        if result!=None:
+            result = json.loads(result[0][0])
+        return result

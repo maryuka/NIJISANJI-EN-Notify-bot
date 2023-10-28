@@ -3,137 +3,207 @@ from __future__ import print_function
 import os
 import logging
 import time
-import pickle
-import json
-import bz2
-from codecs import decode
-
 from PIL import Image, ImageDraw, ImageFont
 import tweepy
-import psycopg2
-from psycopg2.extras import Json
+import pandas as pd
 
-from db_ope import PostgreConnect
+sl_time = 1
 
-sl_time = 3
-PROTOCOL = pickle.HIGHEST_PROTOCOL
-
-
-#preparing to tweet and retrieve data via Twitter
+# preparing to tweet and retrieve data via Twitter
 def twitter_api():
-    CONSUMER_KEY    = os.environ['API_KEY']
-    CONSUMER_SECRET = os.environ['API_SECRET_KEY']
-    ACCESS_TOKEN    = os.environ['ACCESS_TOKEN']
-    ACCESS_SECRET   = os.environ['ACCESS_TOKEN_SECRET']
-    auth            = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-    api             = tweepy.API(auth)
+    ACCESS_TOKEN        = os.environ['ACCESS_TOKEN']
+    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
+    API_KEY             = os.environ['API_KEY']
+    API_SECRET_KEY      = os.environ['API_SECRET_KEY']
 
-    return api
+    Client = tweepy.Client(
+        consumer_key        = API_KEY,
+        consumer_secret     = API_SECRET_KEY,
+        access_token        = ACCESS_TOKEN,
+        access_token_secret = ACCESS_TOKEN_SECRET
+    )
 
+    auth = tweepy.OAuthHandler(API_KEY, API_SECRET_KEY)
+    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    api = tweepy.API(auth)
+    return Client, api
 
-#generate an image of the previous day's ratio
-def img_gen(subscribers_, diff_, members_, today, gen_img_name):
-    im = Image.open('img/bg_template.png')
-    draw = ImageDraw.Draw(im)
-    k = l = 0
+def post_tweet(tweet, thread_id=None):
+    '''
+    post tweet and return the tweet id
 
-    W, H = (2001,3001)
+    Parameters
+    ----------
+    tweet       : str : tweet text
+    thread_id   : str : this new tweet reply to this thread_id
 
-    font_size_num = 60
-    font_size_date = 40
-    font_num = ImageFont.truetype('font/NixieOne-Regular.ttf', font_size_num)
-    font_date = ImageFont.truetype('font/NixieOne-Regular.ttf', font_size_date)
-    font_color = (0,0,0)
-
-    w_pos_s = 1200 #distance from the left edge of the image(Location of the center line of Subscribers)
-    w_pos_d = 1640 #distance from the left edge of the image(Location of the center line of TheDayBefore)
-    h_pos = 290.5 #distance from the top of the image of the value
-
-    w_date, h_date = draw.textsize('{}'.format(today), font=font_date)
-    draw.text((W - w_date - 30, H - h_date - 30), '{}'.format(today), font_color, font=font_date)
-
-    for mem in members_:
-        for name, subscriber in subscribers_.items():
-            if name == mem:
-                w_subsc, h_subsc = draw.textsize('{:,}'.format(subscriber), font=font_num)
-                
-                draw.text((w_pos_s - w_subsc / 2, h_pos + 95.7 * k), '{:,}'.format(subscriber), font_color, font_num)
-                k += 1
-                break
-        for name, diff in diff_.items():
-            if name == mem:
-                w_diff, h_diff = draw.textsize('+{:,}'.format(diff), font=font_num)
-                
-                draw.text((w_pos_d - w_diff / 2, h_pos + 95.7 * l), '+{:,}'.format(diff), font_color, font_num)
-                l += 1
-                break
-    im.save(gen_img_name)
-
-
-#tweet with image
-#tweet is the text to tweet, files is the path to the image
-def tweet_with_imgs(tweet, file):
-    api = twitter_api()
-    media_ids = []
-    img = api.media_upload(file)
-    media_ids.append(img.media_id_string)
-
+    Returns
+    ----------
+    parent_tweet.data['id'] : str : the tweet id
+    '''
+    Client, api = twitter_api()
     time.sleep(sl_time)
     try:
-        api.update_status(status=tweet, media_ids=media_ids)
-    except tweepy.TweepError as e:
-        logging.exception(f'tweet failed:{e.reason}')
+        parent_tweet = Client.create_tweet(text = tweet, in_reply_to_tweet_id=thread_id)
+        print('Tweeted.')
+        return parent_tweet.data['id']
+    except tweepy.errors.TweepyException as e:
+        print(f'tweet failed:{e}')
+
+def post_tweet_with_imgs(tweet, files):
+    '''
+    post tweet with images and return the tweet id
+
+    Parameters
+    ----------
+    tweet       : str : tweet text
+    files       : list :  paths to the image files (path is str)
+
+    Returns
+    ----------
+    parent_tweet.data['id'] : str : the tweet id
+    '''
+    Client, api = twitter_api()
+    media_ids   = []
+
+    try:
+        for file in files:
+            img = api.media_upload(file)
+            media_ids.append(img.media_id)
+        time.sleep(sl_time)
+    except tweepy.errors.TweepyException as e:
+        logging.exception(f'media upload failed:{e}')
+
+    try:
+        parent_tweet = Client.create_tweet(text = tweet, media_ids=media_ids)
+        time.sleep(sl_time)
+        print('Image tweeted')
+        return parent_tweet.data['id']
+    except tweepy.errors.TweepyException as e:
+        logging.exception(f'tweet with media failed:{e}')
+
+
+def img_gen(subscribers, diff, members, date, gen_img_paths, month=False):
+    '''
+    make daily or monthly image and save image in gen_img_paths
+
+    Parameters
+    ----------
+    subscribers     : dict : pairs of liver names and subs count
+    diff            : dict : pairs of liver names and the increase
+    members         : list : the list of monitored names in dics.py
+    date            : dict : pairs of liver names and subs count
+    gen_img_paths   : list : paths to the image files (path is str)
+    month           : boolean : if this image is monthly one
+
+    Returns
+    ----------
+    None
+    '''
+    if month:
+        im1 = Image.open('img/bg_month_template1.jpg')
+        im2 = Image.open('img/bg_month_template2.jpg')
+        im  = [im1,im2]
+    else:
+        im1 = Image.open('img/bg_template1.jpg')
+        im2 = Image.open('img/bg_template2.jpg')
+        im  = [im1,im2]
+
+    # initialize
+    k = l = 0
+    W, H            = (2001, 2800)
+    font_size_num   = 60
+    font_size_date  = 40
+    font_num        = ImageFont.truetype('font/NixieOne-Regular.ttf', font_size_num)
+    font_date       = ImageFont.truetype('font/NixieOne-Regular.ttf', font_size_date)
+    font_color      = (0, 0, 0)
     
+    draw            = ImageDraw.Draw(im1)
+    w_date, h_date  = draw.textsize('{}'.format(date), font=font_date)
+    for _im in im:
+        ImageDraw.Draw(_im).text((W - w_date - 30, H - h_date - 30),
+            '{}'.format(date), font_color, font=font_date)
 
+    # distance from the left edge of the image(Location of the center line of Subscribers)
+    w_pos_s = 1200
+    # distance from the left edge of the image(Location of the center line of TheDayBefore)
+    w_pos_d = 1640
+    # distance from the top of the image of the value
+    h_pos   = 380
+    # the date position
+    w_date, h_date = draw.textsize('{}'.format(date), font=font_date)
 
-def db_prepare():
-    USER = os.environ['DB_USER']
-    PASSWORD = os.environ['DB_PASS']
-    HOST = os.environ['DB_HOST']
-    PORT = os.environ['DB_PORT']
-    DBNAME = os.environ['DB_DBNAME']
+    for mem in members:
+        if mem == 'Doppio Dropscythe':
+            k = l = 0
+            draw = ImageDraw.Draw(im2)
+        for name, subscriber in subscribers.items():
+            if name == mem:
+                w_subsc, h_subsc = draw.textsize(
+                    f'{subscriber:,}', font=font_num)
+                draw.text((w_pos_s - w_subsc / 2, h_pos + 95.7 * k),
+                          f'{subscriber:,}', font_color, font_num)
+                k += 1
+                break
+        for name, diff in diff.items():
+            if name == mem:
+                if diff>=0:
+                    w_diff, h_diff = draw.textsize(
+                        f'+{diff:,}', font=font_num)
+                elif diff<0:
+                    w_diff, h_diff = draw.textsize(
+                        f'{diff:,}', font=font_num)
+                draw.text((w_pos_d - w_diff / 2, h_pos + 95.7 * l),
+                        f'{diff:,}', font_color, font_num)
+                l += 1
+                break
+    i = 0
+    for _im in im:
+        _im.save(gen_img_paths[i])
+        i += 1
 
-    db = PostgreConnect(HOST,DBNAME,USER,PASSWORD)
-    return db
-    
+def make_ranking(num,members,subs,diff):
+    '''
+    make ranking of the increase subscriber
 
-def db_create():
-    try:
-        db = db_prepare()
-        if not db.exists('daily_logs'):
-            print('create db')
-            db.create('daily_logs','date text, log jsonb','date, log')
-    except (Exception, psycopg2.Error) as e:
-        logging.exception(f'database error: {e}')
-        return None
+    Parameters
+    ----------
+    num     : int : how many persons do you tweet from the top
+    members : list : the list of monitored names in dics.py
+    subs    : dict : pairs of liver names and subs count
+    diff    : dict : pairs of liver names and the increase
 
+    Returns
+    ----------
+    tweet_list  : list of tweet text (tweet is separated every 5 person)
+    '''
+    list    = []
 
-def db_insert(day_num_log, today):
-    try:
-        db = db_prepare()
-        sql = 'INSERT INTO daily_logs (date, log) VALUES (\'{}\', {});'.format(today, Json(day_num_log))
-        db.execute(sql)
-    except (Exception, psycopg2.Error) as e:
-        logging.exception(f'database error: {e}')
-        return None
+    for member in members:
+        l = [member, diff[member]]
+        list.append(l)
 
+    df = pd.DataFrame(list,columns=['member','diff'])
 
-def db_delete(dbname):
-    try:
-        db = db_prepare()
-        db.drop(dbname)
-    except (Exception, psycopg2.Error) as e:
-        logging.exception(f'database error: {e}')
-        return None
+    df_top          = df.nlargest(num,'diff')
+    df_top['rank']  =  df_top['diff'].rank(ascending=False,method='min')
+    df_top          = df_top.sort_values('diff')
+    rank_list       = df_top.reset_index().values.tolist()
 
-
-# https://www.haya-programming.com/entry/2017/02/25/184006
-def ptoz(dict):
-    #return dict
-    return bz2.compress(pickle.dumps(dict))
-
-def ztop(b):
-    #return b
-    print(b)
-    return pickle.loads(bz2.decompress(b))
+    k = 0
+    tweet = ''
+    tweet_list=[]
+    for item in rank_list:
+        _mem    = item[1]
+        _diff   = item[2]
+        _rank   = int(item[3])
+        _sub    = subs[_mem]
+        tweet += f'{_rank:d}. {_mem} {_sub:,d} subs (+{_diff:,d})'
+        if(k==4):
+            tweet_list.append(tweet)
+            tweet = ''
+            k = 0
+        else:
+            tweet += '\n'
+            k += 1
+    return tweet_list
