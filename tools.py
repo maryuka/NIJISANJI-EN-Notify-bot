@@ -145,6 +145,8 @@ def img_gen(subscribers, diff, members, date, gen_img_paths, month=False):
                           f'{subscriber:,}', font_color, font_num)
                 k += 1
                 break
+        print(diff)
+        print(type(diff))
         for name, diff in diff.items():
             if name == mem:
                 if diff>=0:

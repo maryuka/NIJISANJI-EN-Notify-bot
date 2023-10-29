@@ -43,7 +43,7 @@ def main():
     sched.add_job(number_notification, 'interval',
                   minutes=INTERVAL_TIME)
     sched.add_job(daily, 'interval',
-                  minutes=INTERVAL_TIME)
+                  minutes=1)
     # Post a image of daily increase at 0:00 UTC each day
     sched.add_job(daily, 'cron', hour=0,
                   minute=0, second=0)
@@ -168,7 +168,6 @@ def daily():
         print('Ranking tweeted')
 
     subs, diff = _setup()
-    print(diff)
 
     # tweet the img with these diff
     img_gen(subs, diff, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
