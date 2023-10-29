@@ -83,14 +83,14 @@ def post_tweet_with_imgs(tweet, files):
         logging.exception(f'tweet with media failed:{e}')
 
 
-def img_gen(subscribers, diff, members, date, gen_img_paths, month=False):
+def img_gen(subscribers, diffs, members, date, gen_img_paths, month=False):
     '''
     make daily or monthly image and save image in gen_img_paths
 
     Parameters
     ----------
     subscribers     : dict : pairs of liver names and subs count
-    diff            : dict : pairs of liver names and the increase
+    diffs           : dict : pairs of liver names and the increase
     members         : list : the list of monitored names in dics.py
     date            : dict : pairs of liver names and subs count
     gen_img_paths   : list : paths to the image files (path is str)
@@ -145,9 +145,8 @@ def img_gen(subscribers, diff, members, date, gen_img_paths, month=False):
                           f'{subscriber:,}', font_color, font_num)
                 k += 1
                 break
-        print(diff)
-        print(type(diff))
-        for name, diff in diff.items():
+
+        for name, diff in diffs.items():
             if name == mem:
                 if diff>=0:
                     w_diff, h_diff = draw.textsize(

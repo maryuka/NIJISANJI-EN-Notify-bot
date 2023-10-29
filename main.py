@@ -34,16 +34,15 @@ def main():
     print('Start work : {}'.format(datetime.now()))
 
     SQL.db_create()
-    # test
+    # test run
     number_notification()
+    daily()
 
     sched = BlockingScheduler()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
                   minutes=INTERVAL_TIME)
-    sched.add_job(daily, 'interval',
-                  minutes=1)
     # Post a image of daily increase at 0:00 UTC each day
     sched.add_job(daily, 'cron', hour=0,
                   minute=0, second=0)
@@ -151,15 +150,15 @@ def daily():
         if day_before_contents == None:
             day_before_contents = subs
 
-        diff = {}
+        diffs = {}
         for mem in MEMBERS:
-            diff[mem] = subs[mem] - day_before_contents[mem]
-        return subs, diff
+            diffs[mem] = subs[mem] - day_before_contents[mem]
+        return subs, diffs
 
     # --- post the daily ranking ---
     def _post_ranking():
         tweet       = DAILY_RANKING.format(now_utc_str=now_utc_str)
-        tweet_list  = make_ranking(5, MEMBERS, subs, diff)
+        tweet_list  = make_ranking(5, MEMBERS, subs, diffs)
         for tw in tweet_list:
             tweet  += ''.join(tw)
             #post_tweet(tweet)
@@ -167,10 +166,10 @@ def daily():
             tweet   = ''
         print('Ranking tweeted')
 
-    subs, diff = _setup()
+    subs, diffs = _setup()
 
     # tweet the img with these diff
-    img_gen(subs, diff, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
+    img_gen(subs, diffs, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
     tweet = DAILY_IMG.format(now_utc_str=now_utc_str)
     #post_tweet_with_imgs(tweet, DIFF_IMG_PATHS)
     print('Image tweeted')
