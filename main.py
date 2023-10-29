@@ -167,7 +167,8 @@ def daily():
             tweet   = ''
         print('Ranking tweeted')
 
-    subs,diff = _setup()
+    subs, diff = _setup()
+    print(diff)
 
     # tweet the img with these diff
     img_gen(subs, diff, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
