@@ -42,8 +42,8 @@ def main():
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
                   minutes=INTERVAL_TIME)
-    #sched.add_job(daily, 'interval',
-    #              minutes=INTERVAL_TIME)
+    sched.add_job(daily, 'interval',
+                  minutes=INTERVAL_TIME)
     # Post a image of daily increase at 0:00 UTC each day
     sched.add_job(daily, 'cron', hour=0,
                   minute=0, second=0)
