@@ -34,11 +34,10 @@ def main():
     print('Start work : {}'.format(datetime.now()))
 
     SQL.db_create()
+    sched = BlockingScheduler()
+
     # test run
     number_notification()
-    daily()
-
-    sched = BlockingScheduler()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
@@ -49,7 +48,6 @@ def main():
     # Post a image of monthly increase at the first of each month
     sched.add_job(monthly, 'cron', day=1, hour=0,
                   minute=0, second=0)
-
     print('sched work start')
     sched.start()
 
@@ -161,7 +159,7 @@ def daily():
         tweet_list  = make_ranking(5, MEMBERS, subs, diffs)
         for tw in tweet_list:
             tweet  += ''.join(tw)
-            #post_tweet(tweet)
+            post_tweet(tweet)
             print(tweet)
             tweet   = ''
         print('Ranking tweeted')
@@ -171,7 +169,7 @@ def daily():
     # tweet the img with these diff
     img_gen(subs, diffs, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
     tweet = DAILY_IMG.format(now_utc_str=now_utc_str)
-    #post_tweet_with_imgs(tweet, DIFF_IMG_PATHS)
+    post_tweet_with_imgs(tweet, DIFF_IMG_PATHS)
     print('Image tweeted')
 
     _post_ranking()
