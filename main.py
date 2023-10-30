@@ -161,6 +161,7 @@ def daily():
         for tw in tweet_list:
             tweet  += ''.join(tw)
             #post_tweet(tweet)
+            print(tweet)
             tweet   = ''
         print('Ranking tweeted')
 
