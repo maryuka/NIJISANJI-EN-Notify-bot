@@ -187,8 +187,8 @@ def make_ranking(num,members,subs,diff):
     df = pd.DataFrame(list,columns=['member','diff'])
 
     df_top          = df.nlargest(num,'diff')
-    df_top['rank']  = df_top['diff'].rank(ascending=True,method='min')
-    df_top          = df_top.sort_values('diff')
+    df_top['rank']  = df_top['diff'].rank(ascending=False,method='min')
+    df_top          = df_top.sort_values('rank')
     rank_list       = df_top.reset_index().values.tolist()
 
     k = 0
