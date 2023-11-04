@@ -17,7 +17,7 @@ INTERVAL_TIME   = 5
 NUM_LOG_FILE    = './num_log_file.pickle'
 DIFF_IMG_PATHS  = ['./diff1.png','./diff2.png']
 
-REMAIN_NOTIFY   = '{hashtag}{member} has more {sub_count:,d} subs to go to reach {goal_count:,d} subs on YouTube. ({sub_count:,d} subs)'
+REMAIN_NOTIFY   = '{hashtag}{member} has more 1,000 subs to go to reach {goal_count:,d} subs on YouTube. ({sub_count:,d} subs)'
 SUB_NOTIFY      = '{hashtag}{member} has reached {sub_count:,d} subs on YouTube. ({sub_count:,d} subs)'
 DAILY_IMG       = '[Routine Notices] {now_utc_str}\nyoutube subscriber count (the day before)'
 DAILY_RANKING   = '[Daily Ranking] {now_utc_str}\ntop 5 most increase (the day before)\n'
@@ -97,7 +97,7 @@ def number_notification():
         else:
             h = '#'
             member = member.replace(' ','').replace('.','')
-        if sub_count_str[-4]==9:
+        if sub_count_str[-4]=='9':
             tweet = REMAIN_NOTIFY.format(hashtag=h,member = member,
                                             sub_count=sub_count,goal_count=sub_count+1000)
             post_tweet(tweet)
