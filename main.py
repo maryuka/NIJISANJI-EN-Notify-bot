@@ -16,13 +16,14 @@ INTERVAL_TIME   = 5
 
 NUM_LOG_FILE    = './num_log_file.pickle'
 DIFF_IMG_PATHS  = ['./diff1.png','./diff2.png']
+DIFF_IMG_PATHS_MONTH  = ['./diff1_month.png','./diff2_month.png']
 
 REMAIN_NOTIFY   = '{hashtag}{member} has more 1,000 subs to go to reach {goal_count:,d} subs on YouTube. ({sub_count:,d} subs)'
 SUB_NOTIFY      = '{hashtag}{member} has reached {sub_count:,d} subs on YouTube. ({sub_count:,d} subs)'
-DAILY_IMG       = '[Routine Notices] {now_utc_str}\nyoutube subscriber count (the day before)'
-DAILY_RANKING   = '[Daily Ranking] {now_utc_str}\ntop 5 most increase (the day before)\n'
-MONTHLY_IMG     = '[Monthly Notices] {now_utc_str}\n{last_month} period'
-MONTHLY_RANKING = '[Monthly Ranking] {now_utc_str}\ntop 10 most increase (the month before)\n'
+DAILY_IMG       = '[Routine Notices] {now_utc_str}\nday-before comparison'
+DAILY_RANKING   = '[Daily Ranking] {now_utc_str}\nTop 5 with the highest increase\n'
+MONTHLY_IMG     = '[Monthly Notices] {now_utc_str}\n{last_month} period\nmonth-before comparison'
+MONTHLY_RANKING = '[Monthly Ranking] {now_utc_str}\nTop 10 with the highest increase\n'
 
 MEMBERS         = members
 GROUPS          = groups
@@ -227,9 +228,9 @@ def monthly():
     subs, diff = _setup()
 
     # tweet the img with these diff
-    img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS, month=True)
+    img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
     tweet = MONTHLY_IMG.format(now_utc_str=now_utc_str,last_month=datetime.strftime(last_month, '%B'))
-    post_tweet_with_imgs(tweet, DIFF_IMG_PATHS)
+    post_tweet_with_imgs(tweet, DIFF_IMG_PATHS_MONTH)
 
     _post_ranking()
 

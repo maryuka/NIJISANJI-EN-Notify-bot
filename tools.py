@@ -83,7 +83,7 @@ def post_tweet_with_imgs(tweet, files):
         logging.exception(f'tweet with media failed:{e}')
 
 
-def img_gen(subscribers, diffs, members, date, gen_img_paths, month=False):
+def img_gen(subscribers, diffs, members, date, gen_img_paths):
     '''
     make daily or monthly image and save image in gen_img_paths
 
@@ -100,14 +100,10 @@ def img_gen(subscribers, diffs, members, date, gen_img_paths, month=False):
     ----------
     None
     '''
-    if month:
-        im1 = Image.open('img/bg_month_template1.jpg')
-        im2 = Image.open('img/bg_month_template2.jpg')
-        im  = [im1,im2]
-    else:
-        im1 = Image.open('img/bg_template1.jpg')
-        im2 = Image.open('img/bg_template2.jpg')
-        im  = [im1,im2]
+
+    im1 = Image.open('img/bg_template1.jpg')
+    im2 = Image.open('img/bg_template2.jpg')
+    im  = [im1,im2]
 
     # initialize
     k = l = 0
@@ -197,6 +193,8 @@ def make_ranking(num,members,subs,diff):
     for item in rank_list:
         _mem    = item[1]
         _diff   = item[2]
+        if(_diff==0):
+            break
         _rank   = int(item[3])
         _sub    = subs[_mem]
         tweet += f'{_rank:d}. {_mem} {_sub:,d} subs (+{_diff:,d})'
