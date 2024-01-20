@@ -1,7 +1,6 @@
 #List of VTubers that the bot looks at
 #To be in the same order as the previous day's image
 members = ['Elira Pendora',
-           'Pomu Rainpuff',
            'Finana Ryugu',
            'Selen Tatsuki',
            'Rosemi Lovelock',
@@ -30,6 +29,9 @@ members = ['Elira Pendora',
            'Yu Q. Wilson',
            'Vantacrow Bringer',
            'Vezalius Bandage',
+           'Claude Clawmark',
+           'Kunai Nakasato',
+           'Victoria Brightshield',
            'Luxiem',
            'NIJISANJI EN Official']
 
