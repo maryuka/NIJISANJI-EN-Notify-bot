@@ -41,7 +41,7 @@ groups = ['Luxiem',
 #Dictionary of YouTube Channel ID
 #Write the part after channel
 yt_id_dic = {'Elira Pendora':'UCIeSUTOTkF9Hs7q3SGcO-Ow',
-             'Pomu Rainpuff':'UCP4nMSTdwU1KqYWu3UH5DHQ',
+             #'Pomu Rainpuff':'UCP4nMSTdwU1KqYWu3UH5DHQ',
              'Finana Ryugu':'UCu-J8uIXuLZh16gG-cT1naw',
              'Selen Tatsuki':'UCV1xUwfM2v2oBtT3JNvic3w',
              'Rosemi Lovelock':'UC4WvIIAo89_AzGUh1AZ6Dkg',
