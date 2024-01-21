@@ -82,7 +82,7 @@ def number_notification():
 
     # --- judge if the subs changed ---
     def _judge(member):
-        if contents[member]['subscriber'] > old_contents[member]['subscriber']:
+        if (contents[member]['subscriber']//1000) > (old_contents[member]['subscriber']//1000):
             return True
         else:
             return False
