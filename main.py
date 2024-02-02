@@ -37,12 +37,6 @@ def main():
     SQL.db_create()
     sched = BlockingScheduler()
 
-    # ------
-    now_utc     = datetime.now(timezone.utc)
-    subs = get_subscriber(MEMBERS)
-    SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
-    # -------
-
     # test run
     number_notification()
 
