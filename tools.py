@@ -187,22 +187,22 @@ def make_ranking(num,members,subs,diff):
     df_top          = df_top.sort_values('rank')
     rank_list       = df_top.reset_index().values.tolist()
 
-    k = 0
+    flag = 0
     tweet = ''
     tweet_list=[]
     for item in rank_list:
         _mem    = item[1]
         _diff   = item[2]
-        if(_diff==0):
-            continue
+        if(_diff<=0):
+            break
         _rank   = int(item[3])
         _sub    = subs[_mem]
         tweet += f'{_rank:d}. {_mem} {_sub:,d} subs (+{_diff:,d})'
-        if(k==4):
+        if(flag==4):
             tweet_list.append(tweet)
             tweet = ''
-            k = 0
+            flag = 0
         else:
             tweet += '\n'
-            k += 1
+            flag += 1
     return tweet_list

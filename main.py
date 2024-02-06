@@ -158,6 +158,9 @@ def daily():
     def _post_ranking():
         tweet       = DAILY_RANKING.format(now_utc_str=now_utc_str)
         tweet_list  = make_ranking(5, MEMBERS, subs, diffs)
+        if tweet_list == []:
+            print('Ranking tweet canceled')
+            return
         for tw in tweet_list:
             tweet  += ''.join(tw)
             post_tweet(tweet)
@@ -168,7 +171,7 @@ def daily():
     subs, diffs = _setup()
 
     # save today's data into database
-    # SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
+    SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
 
     # tweet the img with these diff
     img_gen(subs, diffs, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
@@ -176,6 +179,7 @@ def daily():
     post_tweet_with_imgs(tweet, DIFF_IMG_PATHS)
     print('Image tweeted')
 
+    # tweet ranking 
     _post_ranking()
 
 def monthly():
