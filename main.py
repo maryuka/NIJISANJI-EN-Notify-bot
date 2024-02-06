@@ -39,6 +39,7 @@ def main():
 
     # test run
     number_notification()
+    daily()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
@@ -168,7 +169,7 @@ def daily():
     subs, diffs = _setup()
 
     # save today's data into database
-    SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
+    # SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
 
     # tweet the img with these diff
     img_gen(subs, diffs, MEMBERS, datetime.strftime(now_utc, '%Y-%m-%d'), DIFF_IMG_PATHS )
