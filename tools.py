@@ -107,7 +107,7 @@ def img_gen(subscribers, diffs, members, date, gen_img_paths):
 
     # initialize
     k = l = 0
-    W, H            = (2001, 2800)
+    W, H            = (2001, 2801)
     font_size_num   = 60
     font_size_date  = 40
     font_num        = ImageFont.truetype('font/NixieOne-Regular.ttf', font_size_num)
