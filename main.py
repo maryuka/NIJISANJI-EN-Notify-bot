@@ -39,7 +39,6 @@ def main():
 
     # test run
     number_notification()
-    daily()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
