@@ -194,7 +194,7 @@ def make_ranking(num,members,subs,diff):
         _mem    = item[1]
         _diff   = item[2]
         if(_diff==0):
-            break
+            continue
         _rank   = int(item[3])
         _sub    = subs[_mem]
         tweet += f'{_rank:d}. {_mem} {_sub:,d} subs (+{_diff:,d})'
