@@ -31,6 +31,9 @@ members = ['Elira Pendora',
            'Claude Clawmark',
            'Kunai Nakasato',
            'Victoria Brightshield',
+           'Ryoma Barrenwort',
+           'Klara Charmwood',
+           'Twisty Amanozako',
            'Luxiem',
            'NIJISANJI EN Official']
 
@@ -77,6 +80,9 @@ yt_id_dic = {'Elira Pendora':'UCIeSUTOTkF9Hs7q3SGcO-Ow',
              'Kunai Nakasato':'UCwqtK-m6954_aHEvOYtZpyQ',
              'Victoria Brightshield':'UChTA8kHyInr2rKZ2aBv5ULw',
              'Luxiem':'UCtHFXfrn52juTqGBN4WbMVw',
+             'Ryoma Barrenwort':'UCIzZDiilcPv0wim_MbuizFA',
+             'Klara Charmwood':'UCQYwIUCLqFoin7lHKmePjJw',
+             'Twisty Amanozako':'UCUI1qpjJSEbgzdlwmpdVmMw',
              'NIJISANJI EN Official':'UC-JSeFfovhNsEhftt1WHMvg',
              }
 
