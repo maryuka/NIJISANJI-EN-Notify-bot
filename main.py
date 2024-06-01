@@ -39,7 +39,6 @@ def main():
 
     # test run
     number_notification()
-    monthly()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
@@ -209,38 +208,38 @@ def monthly():
     def _setup():
         subs = get_subscriber(MEMBERS)
         
-        # month_before_contents = SQL.db_get_log(datetime.strftime(last_month, '%Y-%m-%d'))
-        # if month_before_contents == None:
-        #     month_before_contents = subs
+        month_before_contents = SQL.db_get_log(datetime.strftime(last_month, '%Y-%m-%d'))
+        if month_before_contents == None:
+            month_before_contents = subs
 
         diff = {}
-        # for mem in MEMBERS:
-        #     diff[mem] = subs[mem] - month_before_contents[mem]
+        for mem in MEMBERS:
+            diff[mem] = subs[mem] - month_before_contents[mem]
 
         return subs, diff
 
-    # # --- post the monthly ranking ---
-    # def _post_ranking():
-    #     tweet       = MONTHLY_RANKING.format(now_utc_str=now_utc_str)
-    #     tweet_list  = make_ranking(10, MEMBERS, subs, diff)
-    #     thread_id   = None
-    #     for tw in tweet_list:
-    #         tweet       += ''.join(tw)
-    #         thread_id   = post_tweet(tweet,thread_id)
-    #         tweet       = ''
-    #     print('Ranking tweeted')
+    # --- post the monthly ranking ---
+    def _post_ranking():
+        tweet       = MONTHLY_RANKING.format(now_utc_str=now_utc_str)
+        tweet_list  = make_ranking(10, MEMBERS, subs, diff)
+        thread_id   = None
+        for tw in tweet_list:
+            tweet       += ''.join(tw)
+            thread_id   = post_tweet(tweet,thread_id)
+            tweet       = ''
+        print('Ranking tweeted')
 
     subs, diff = _setup()
 
-    # # tweet the img with these diff
-    # img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
-    # tweet = MONTHLY_IMG.format(now_utc_str=now_utc_str,last_month=datetime.strftime(last_month, '%B'))
-    # post_tweet_with_imgs(tweet, DIFF_IMG_PATHS_MONTH)
+    # tweet the img with these diff
+    img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
+    tweet = MONTHLY_IMG.format(now_utc_str=now_utc_str,last_month=datetime.strftime(last_month, '%B'))
+    post_tweet_with_imgs(tweet, DIFF_IMG_PATHS_MONTH)
 
-    # _post_ranking()
+    _post_ranking()
 
     # delete all data
-    # SQL.db_delete_table()
+    SQL.db_delete_table()
     # save today's data into database
     SQL.db_create()
     SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
