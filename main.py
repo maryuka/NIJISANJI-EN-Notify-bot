@@ -230,7 +230,7 @@ def monthly():
     #         tweet       = ''
     #     print('Ranking tweeted')
 
-    # subs, diff = _setup()
+    subs, diff = _setup()
 
     # # tweet the img with these diff
     # img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
