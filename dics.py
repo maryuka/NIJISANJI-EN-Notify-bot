@@ -35,6 +35,10 @@ members = ['Elira Pendora',
            'Ryoma Barrenwort',
            'Klara Charmwood',
            'Twisty Amanozako',
+           'Freodore',
+           'Kaelix Debonair',
+           'Seible',
+           'Zeal Ginjoka',
            'Luxiem',
            'NIJISANJI EN Official']
 
@@ -84,6 +88,10 @@ yt_id_dic = {'Elira Pendora':'UCIeSUTOTkF9Hs7q3SGcO-Ow',
              'Ryoma Barrenwort':'UCIzZDiilcPv0wim_MbuizFA',
              'Klara Charmwood':'UCQYwIUCLqFoin7lHKmePjJw',
              'Twisty Amanozako':'UCUI1qpjJSEbgzdlwmpdVmMw',
+             'Freodore':'UCr40BzcLiGruKe7M5gXR9zQ',
+             'Kaelix Debonair':'UCEFOogmvTTcCaO8Qe0I8-tg',
+             'Seible':'UCCugV2RWXqJMjVVQl_Yh4TQ',
+             'Zeal Ginjoka':'UClMYGvekJOb51eBOCK-d4Dw',
              'NIJISANJI EN Official':'UC-JSeFfovhNsEhftt1WHMvg',
              }
 
