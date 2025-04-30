@@ -151,6 +151,8 @@ def daily():
 
         diffs = {}
         for mem in MEMBERS:
+            if mem not in day_before_contents:
+                day_before_contents[mem] = subs[mem]  # 前日のデータがなければ今日の値を使用
             diffs[mem] = subs[mem] - day_before_contents[mem]
         return subs, diffs
 
