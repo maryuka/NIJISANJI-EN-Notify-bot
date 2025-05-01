@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 import tweepy
 import pandas as pd
 
-sl_time = 1
+sl_time = 10
 
 # preparing to tweet and retrieve data via Twitter
 def twitter_api():

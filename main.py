@@ -237,9 +237,9 @@ def monthly():
     subs, diff = _setup()
 
     # tweet the img with these diff
-    img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
-    tweet = MONTHLY_IMG.format(now_utc_str=now_utc_str,last_month=datetime.strftime(last_month, '%B'))
-    post_tweet_with_imgs(tweet, DIFF_IMG_PATHS_MONTH)
+    # img_gen(subs, diff, MEMBERS, datetime.strftime(last_month, '%Y-%m'), DIFF_IMG_PATHS_MONTH)
+    # tweet = MONTHLY_IMG.format(now_utc_str=now_utc_str,last_month=datetime.strftime(last_month, '%B'))
+    # post_tweet_with_imgs(tweet, DIFF_IMG_PATHS_MONTH)
 
     _post_ranking()
 
@@ -247,7 +247,7 @@ def monthly():
     # SQL.db_delete_table()
     # save today's data into database
     # SQL.db_create()
-    SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
+    # SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
 
 
 # main
