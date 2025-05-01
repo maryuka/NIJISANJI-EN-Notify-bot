@@ -39,6 +39,7 @@ def main():
 
     # test run
     number_notification()
+    monthly()
 
     # Execute number_notification every interval_time minutes
     sched.add_job(number_notification, 'interval',
@@ -216,6 +217,8 @@ def monthly():
 
         diff = {}
         for mem in MEMBERS:
+            if mem not in month_before_contents:
+                month_before_contents[mem] = 0
             diff[mem] = subs[mem] - month_before_contents[mem]
 
         return subs, diff
@@ -241,9 +244,9 @@ def monthly():
     _post_ranking()
 
     # delete all data
-    SQL.db_delete_table()
+    # SQL.db_delete_table()
     # save today's data into database
-    SQL.db_create()
+    # SQL.db_create()
     SQL.db_insert(subs, now_utc.strftime('%Y-%m-%d'))
 
 
